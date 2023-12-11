@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import {Button} from "react-bootstrap";
 import { useState } from 'react';
 
-function KPIs() {
+function KPIs({setStartingCalories}) {
     const [proteinPercentage, setProteinPercentage] = useState('0%');
     const [carbPercentage, setCarbPercentage] = useState('0%');
     const [fatPercentage, setFatPercentage] = useState('0%');
@@ -70,6 +70,7 @@ function KPIs() {
                     setProteinPercentage(formatPercentage(proteinCalories, totalCalories));
                     setCarbPercentage(formatPercentage(carbCalories, totalCalories));
                     setFatPercentage(formatPercentage(fatCalories, totalCalories));
+                    setStartingCalories(totalCalories);
                 }
             }}>Calculate Macros</Button>
         </Form>
