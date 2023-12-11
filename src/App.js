@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import './KPIs';
-import KPIs from "./KPIs";
+import './MacroCalculator';
+import MacroCalculator from "./MacroCalculator";
 import { useState } from 'react';
 
 function App() {
@@ -10,10 +10,11 @@ function App() {
     return (
         <div className="App">
             <h1 className="pt-5 text-white">Macro Nutrient Calculator</h1>
-            <KPIs setStartingCalories={setStartingCalories}/>
+            <MacroCalculator setStartingCalories={setStartingCalories}/>
 
             <hr className="border-top my-3"/>
-            <h1 className="text-white">Caloric Deficit Balancer</h1>
+
+            <h1 className="pt-3 text-white">Caloric Deficit Balancer</h1>
             <h2>{startingCalories}</h2>
         </div>
     );
