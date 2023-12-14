@@ -5,6 +5,14 @@ import Row from 'react-bootstrap/Row';
 import {Button} from "react-bootstrap";
 import { useState } from 'react';
 
+const PROTEIN_GRAMS_CALORIES_FACTOR = 4;
+const CARB_GRAMS_CALORIES_FACTOR = 4;
+const FAT_GRAMS_CALORIES_FACTOR = 9;
+
+const PROTEIN_MACRO_TARGET_PERCENTAGE = 30;
+const CARB_MACRO_TARGET_PERCENTAGE = 40;
+const FAT_MACRO_TARGET_PERCENTAGE = 30;
+
 function MacroCalculator({setStartingCalories}) {
     const [proteinPercentage, setProteinPercentage] = useState('0%');
     const [carbPercentage, setCarbPercentage] = useState('0%');
@@ -18,6 +26,28 @@ function MacroCalculator({setStartingCalories}) {
     const [carbColor, setCarbColor] = useState('white');
     const [fatColor, setFatColor] = useState('white')
 
+    function calculateTotals() {
+        if (gramsOfProtein === 0 || gramsOfCarbs === 0 || gramsOfFat === 0) {return;}
+
+        const proteinCalories = gramsOfProtein * PROTEIN_GRAMS_CALORIES_FACTOR;
+        const carbCalories = gramsOfCarbs * CARB_GRAMS_CALORIES_FACTOR;
+        const fatCalories = gramsOfFat * FAT_GRAMS_CALORIES_FACTOR;
+        const totalCalories = proteinCalories + carbCalories + fatCalories;
+
+        const proteinPercent = calculatePercent(proteinCalories, totalCalories);
+        const carbPercent = calculatePercent(carbCalories, totalCalories);
+        const fatPercent = calculatePercent(fatCalories, totalCalories);
+
+        setProteinPercentage(formatPercentage(proteinPercent));
+        setCarbPercentage(formatPercentage(carbPercent));
+        setFatPercentage(formatPercentage(fatPercent));
+        setStartingCalories(totalCalories);
+
+        setProteinColor(calculateColor(PROTEIN_MACRO_TARGET_PERCENTAGE, proteinPercent));
+        setCarbColor(calculateColor(CARB_MACRO_TARGET_PERCENTAGE, carbPercent));
+        setFatColor(calculateColor(FAT_MACRO_TARGET_PERCENTAGE, fatPercent));
+    }
+
     return (
         <Form className="px-5 pt-3">
             <Row className="mb-3">
@@ -28,10 +58,10 @@ function MacroCalculator({setStartingCalories}) {
                         <Form.Control type="number"
                                       placeholder="grams of protein"
                                       value={gramsOfProtein}
-                                      onFocus={(event) => {event.target.select()}}
                                       onChange = {(event) => {
                                           setGramsOfProtein(parseInt(event.target.value));
                                       }}
+                                      onFocus={(event) => {event.target.select()}}
                         />
                     </Form.Group>
                 </Col>
@@ -41,9 +71,11 @@ function MacroCalculator({setStartingCalories}) {
                         <Form.Control type="number"
                                       placeholder="grams of carbs"
                                       value={gramsOfCarbs}
+                                      htmlSize={100}
                                       onChange={(event) => {
                                           setGramsOfCarbs(Number(event.target.value));
                                       }}
+                                      onFocus={(event) => {event.target.select()}}
                         />
                     </Form.Group>
                 </Col>
@@ -56,6 +88,8 @@ function MacroCalculator({setStartingCalories}) {
                                       onChange={(event) => {
                                           setGramsOfFat(Number(event.target.value));
                                       }}
+                                      onFocus={(event) => {event.target.select()}}
+
                         />
                     </Form.Group>
                 </Col>
@@ -64,23 +98,7 @@ function MacroCalculator({setStartingCalories}) {
             <Button size="lg"
                     className="m-3 jean-blue text-white"
                     onClick={() => {
-                        const proteinCalories = gramsOfProtein * 4;
-                        const carbCalories = gramsOfCarbs * 4;
-                        const fatCalories = gramsOfFat * 9;
-                        const totalCalories = proteinCalories + carbCalories + fatCalories;
-
-                        const proteinPercent = calculatePercent(proteinCalories, totalCalories);
-                        const carbPercent = calculatePercent(carbCalories, totalCalories);
-                        const fatPercent = calculatePercent(fatCalories, totalCalories);
-
-                        setProteinPercentage(formatPercentage(proteinPercent));
-                        setCarbPercentage(formatPercentage(carbPercent));
-                        setFatPercentage(formatPercentage(fatPercent));
-                        setStartingCalories(totalCalories);
-
-                        setProteinColor(calculateColor(30, proteinPercent));
-                        setCarbColor(calculateColor(40, carbPercent));
-                        setFatColor(calculateColor(30, fatPercent));
+                        calculateTotals();
                     }
             }>Calculate Macros</Button>
         </Form>
@@ -98,13 +116,13 @@ function formatPercentage(percentage) {
 
 function calculateColor(expected, actual) {
     if (actual <= (expected + 3) && actual >= (expected - 3)) {
-        return 'green';
+        return '#04E762'; //Malachite
     }
     else if (actual <= (expected + 5) && actual >= (expected - 5)) {
-        return 'yellow';
+        return '#FFD166'; //Sunglow
     }
     else {
-        return 'red';
+        return '#F71735'; //Imperial Red
     }
 }
 

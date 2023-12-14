@@ -27,7 +27,7 @@ function DeficitBalancer({startingCalories}) {
             <Row className="pt-5">
                 <Col lg="4">
                     <Stack className="px-5">
-                        <h2 className="pb-3 text-white">Starting Calories: {startingCalories}</h2>
+                        <h3 className="pb-3 text-white">Starting Calories: {startingCalories}</h3>
                         <Form.Select aria-label="Default select example"
                                      onChange={(e) => {
                                          const deficit = Number(e.target.value);
