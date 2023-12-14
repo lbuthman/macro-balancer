@@ -71,9 +71,8 @@ function MacroCalculator({setStartingCalories}) {
                         <Form.Control type="number"
                                       placeholder="grams of carbs"
                                       value={gramsOfCarbs}
-                                      htmlSize={100}
                                       onChange={(event) => {
-                                          setGramsOfCarbs(Number(event.target.value));
+                                          setGramsOfCarbs(parseInt(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
                         />
@@ -86,7 +85,7 @@ function MacroCalculator({setStartingCalories}) {
                                       placeholder="grams of fat"
                                       value={gramsOfFat}
                                       onChange={(event) => {
-                                          setGramsOfFat(Number(event.target.value));
+                                          setGramsOfFat(parseInt(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
 
