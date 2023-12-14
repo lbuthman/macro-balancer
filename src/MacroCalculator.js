@@ -88,7 +88,6 @@ function MacroCalculator({setStartingCalories}) {
                                           setGramsOfFat(setInputValue(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
-
                         />
                     </Form.Group>
                 </Col>

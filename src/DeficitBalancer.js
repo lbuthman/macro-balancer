@@ -13,14 +13,19 @@ function DeficitBalancer({startingCalories}) {
     const [targetFats, setTargetFats] = useState(0);
 
     useEffect(() => {
-        const deficit = 0;
         const calories = Number(startingCalories);
+        const deficit = 0;
+
+        setTargets(calories, deficit);
+    }, [startingCalories]);
+
+    function setTargets(calories, deficit) {
         const targetCalories = Math.round(calories - (calories * deficit));
         setTargetCalories(targetCalories);
         setTargetProtein(Math.round((targetCalories * .3) / 4));
         setTargetCarbs(Math.round((targetCalories * .4) / 4));
         setTargetFats(Math.round((targetCalories * .3) / 9));
-    }, [startingCalories]);
+    }
 
     return (
         <Container>
@@ -30,13 +35,9 @@ function DeficitBalancer({startingCalories}) {
                         <h3 className="pb-3 text-white">Starting Calories: {startingCalories}</h3>
                         <Form.Select aria-label="Default select example"
                                      onChange={(e) => {
-                                         const deficit = Number(e.target.value);
                                          const calories = Number(startingCalories);
-                                         const targetCalories = Math.round(calories - (calories * deficit));
-                                         setTargetCalories(targetCalories);
-                                         setTargetProtein(Math.round((targetCalories * .3) / 4));
-                                         setTargetCarbs(Math.round((targetCalories * .4) / 4));
-                                         setTargetFats(Math.round((targetCalories * .3) / 9));
+                                         const deficit = Number(e.target.value);
+                                         setTargets(calories, deficit);
                                      }}>
                             <option value={0}>0% deficit</option>
                             <option value={.1}>10% deficit</option>
