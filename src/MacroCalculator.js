@@ -18,9 +18,9 @@ function MacroCalculator({setStartingCalories}) {
     const [carbPercentage, setCarbPercentage] = useState('0%');
     const [fatPercentage, setFatPercentage] = useState('0%');
 
-    const [gramsOfProtein, setGramsOfProtein] = useState(0);
-    const [gramsOfCarbs, setGramsOfCarbs] = useState(0);
-    const [gramsOfFat, setGramsOfFat] = useState(0);
+    const [gramsOfProtein, setGramsOfProtein] = useState();
+    const [gramsOfCarbs, setGramsOfCarbs] = useState();
+    const [gramsOfFat, setGramsOfFat] = useState();
 
     const [proteinColor, setProteinColor] = useState('white');
     const [carbColor, setCarbColor] = useState('white');
@@ -59,7 +59,7 @@ function MacroCalculator({setStartingCalories}) {
                                       placeholder="grams of protein"
                                       value={gramsOfProtein}
                                       onChange = {(event) => {
-                                          setGramsOfProtein(parseInt(event.target.value));
+                                          setGramsOfProtein(setInputValue(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
                         />
@@ -72,7 +72,7 @@ function MacroCalculator({setStartingCalories}) {
                                       placeholder="grams of carbs"
                                       value={gramsOfCarbs}
                                       onChange={(event) => {
-                                          setGramsOfCarbs(parseInt(event.target.value));
+                                          setGramsOfCarbs(setInputValue(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
                         />
@@ -85,7 +85,7 @@ function MacroCalculator({setStartingCalories}) {
                                       placeholder="grams of fat"
                                       value={gramsOfFat}
                                       onChange={(event) => {
-                                          setGramsOfFat(parseInt(event.target.value));
+                                          setGramsOfFat(setInputValue(event.target.value));
                                       }}
                                       onFocus={(event) => {event.target.select()}}
 
@@ -123,6 +123,10 @@ function calculateColor(expected, actual) {
     else {
         return '#F71735'; //Imperial Red
     }
+}
+
+function setInputValue(value) {
+    return value === 0 ? undefined : value;
 }
 
 export default MacroCalculator;
